@@ -85,6 +85,12 @@ public class PlayerControllerScript : MonoBehaviour
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMasks);
 
         Slide();
+
+        if (isSlidingProcess)
+        {
+            rb.drag *= .55f;
+        }
+
         MyInput();
         ControlDrag();
         ControlSpeed();
@@ -104,6 +110,7 @@ public class PlayerControllerScript : MonoBehaviour
         print(isSlidingProcess);
 
         slopeMoveDirection = Vector3.ProjectOnPlane(moveDirection, slopeHit.normal);
+
     }
 
     void MyInput()
@@ -132,20 +139,25 @@ public class PlayerControllerScript : MonoBehaviour
                 rb.mass = 5f;
                 rb.drag = 3f;
 
-                if (isGrounded && !OnSlope())
+                if (isGrounded)
                 {
-                    rb.AddForce(moveDirection.normalized * movementSpeed * movementMultiplier, ForceMode
-                        .VelocityChange);
+                    rb.AddForce(moveDirection.normalized * movementSpeed * 5f, ForceMode.Impulse);
                 }
-                else if (isGrounded && OnSlope())
-                {
-                    rb.AddForce(slopeMoveDirection.normalized * movementSpeed * movementMultiplier, ForceMode.VelocityChange);
-                }
-                else if (!isGrounded)
-                {
-                    rb.AddForce(moveDirection.normalized * movementSpeed * movementMultiplier * 
-                        airMultiplier, ForceMode.VelocityChange);
-                }
+
+                //if (isGrounded && !OnSlope())
+                //{
+                //    rb.AddForce(moveDirection.normalized * movementSpeed * movementMultiplier, ForceMode
+                //        .VelocityChange);
+                //}
+                //else if (isGrounded && OnSlope())
+                //{
+                //    rb.AddForce(slopeMoveDirection.normalized * movementSpeed * movementMultiplier, ForceMode.VelocityChange);
+                //}
+                //else if (!isGrounded)
+                //{
+                //    rb.AddForce(moveDirection.normalized * movementSpeed * movementMultiplier * 
+                //        airMultiplier, ForceMode.VelocityChange);
+                //}
             }
             return;
         }

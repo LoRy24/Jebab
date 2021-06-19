@@ -20,7 +20,7 @@ public class PlayerControllerScript : MonoBehaviour
     [SerializeField] float acceleration = 10f;
 
     [Header("Jumping")]
-    public float jumpForce = 5f;
+    public float jumpForce = 12f;
 
     [Header("Ground Detection")]
     public LayerMask groundMasks;
@@ -89,6 +89,7 @@ public class PlayerControllerScript : MonoBehaviour
         if (isSlidingProcess)
         {
             rb.drag *= .55f;
+            //jumpForce *= 1.0025f;
         }
 
         MyInput();
@@ -132,12 +133,12 @@ public class PlayerControllerScript : MonoBehaviour
         if (isSliding)
         {
             cameraPosition.position = new Vector3(this.transform.position.x, this.transform.position.y + .5f, this.transform.position.z);
-            jumpForce = 30f;
             if (!isSlidingProcess)
             {
                 isSlidingProcess = true;
                 rb.mass = 5f;
                 rb.drag = 3f;
+                jumpForce = 30f;
 
                 if (isGrounded)
                 {
